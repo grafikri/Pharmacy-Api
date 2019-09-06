@@ -5,6 +5,8 @@ import * as admin from "firebase-admin"
 import * as qs from "qs"
 import * as jsdom from "jsdom"
 
+import { Coordinate, Pharmacy } from "./appInterfaces"
+
 const { JSDOM } = jsdom
 
 dotenv.config()
@@ -27,6 +29,35 @@ app.get("/", (req: any, res: any) => {
   // })
 
   res.send({ state: "OK" })
+})
+
+/**
+ * This method saves all pharmacies of Bursa to db
+ */
+app.get("/saveBursa", async (req: any, res: any) => {
+  const url = process.env.URL_BURSA
+  const response = await axios.get(url)
+  const data = response.data.data
+
+  const pharmacies: Pharmacy[] = data.map((item: any) => {
+    const pharmacy: Pharmacy = {}
+    pharmacy.name = item.eczane_adi
+    pharmacy.address = item.eczane_adres
+    pharmacy.phone = (item.phone as string).replace("-", "").split("/")[0]
+    if (typeof item.konum === "string") {
+      const arr = item.konum.split(",")
+      pharmacy.coordinate = {
+        lat: +arr[0],
+        lng: +arr[1]
+      }
+    }
+    return pharmacy
+  })
+
+  const ref = await admin.database().ref("bursa")
+  await ref.set(pharmacies)
+
+  res.send({ status: "OK" })
 })
 
 /**

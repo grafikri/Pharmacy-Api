@@ -36,9 +36,7 @@ app.get("/saveIstanbul", async (req: any, res: any) => {
   /**
    * Firsty gets raw html to access hash code that will use post request later
    */
-  const siteResponse = await axios.get(
-    "https://www.istanbuleczaciodasi.org.tr/nobetci-eczane/index.php"
-  )
+  const siteResponse = await axios.get(process.env.URL_ISTANBUL)
 
   /**
    * Accessing hash code to use in post request

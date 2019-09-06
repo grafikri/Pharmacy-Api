@@ -7,6 +7,10 @@ import * as jsdom from "jsdom"
 
 import { Coordinate, Pharmacy } from "./appInterfaces"
 
+const cors = require("cors")({
+  origin: true
+})
+
 const { JSDOM } = jsdom
 
 dotenv.config()
@@ -29,6 +33,24 @@ app.get("/", (req: any, res: any) => {
   // })
 
   res.send({ state: "OK" })
+})
+
+app.get("/pharmacies", async (req: any, res: any) => {
+  const istanbul = await admin
+    .database()
+    .ref("/istanbul")
+    .once("value")
+
+  const bursa = await admin
+    .database()
+    .ref("/bursa")
+    .once("value")
+
+  const data = [...istanbul.val(), ...bursa.val()]
+
+  return cors(req, res, () => {
+    res.send({ data: data })
+  })
 })
 
 /**

@@ -12,6 +12,6 @@ app.get("/user", (req: any, res: any) => {
   res.send({ state: "user" })
 })
 
-app.listen(3000, () => {
+app.listen(port, () => {
   console.log("listening: ", port)
 })

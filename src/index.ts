@@ -13,5 +13,5 @@ app.get("/user", (req: any, res: any) => {
 })
 
 app.listen(3000, () => {
-  console.log("listenin: ", port)
+  console.log("listening: ", port)
 })

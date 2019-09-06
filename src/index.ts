@@ -11,22 +11,22 @@ admin.initializeApp({
   databaseURL: "https://pharmacy-staging-2a233.firebaseio.com"
 })
 
-const ref = admin.database().ref("user")
-ref.set({
-  name: "Serhan"
+const app = express()
+const port = process.env.PORT || 3000
+
+app.get("/", (req: any, res: any) => {
+  const ref = admin.database().ref("user")
+  ref.set({
+    name: "Date " + Math.random()
+  })
+
+  res.send({ state: "OK" })
 })
 
-// const app = express()
-// const port = process.env.PORT || 3000
+app.get("/user", (req: any, res: any) => {
+  res.send({ state: "user" })
+})
 
-// app.get("/", (req: any, res: any) => {
-//   res.send({ state: "OK" })
-// })
-
-// app.get("/user", (req: any, res: any) => {
-//   res.send({ state: "user" })
-// })
-
-// app.listen(port, () => {
-//   console.log("listening: ", port)
-// })
+app.listen(port, () => {
+  console.log("listening: ", port)
+})

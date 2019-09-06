@@ -8,7 +8,7 @@ admin.initializeApp({
   credential: admin.credential.cert(
     JSON.parse(process.env.FIREBASE_CRIDENTALS)
   ),
-  databaseURL: "https://pharmacy-staging-2a233.firebaseio.com"
+  databaseURL: process.env.FIREBASE_DATABASE
 })
 
 const app = express()
@@ -16,6 +16,7 @@ const port = process.env.PORT || 3000
 
 app.get("/", (req: any, res: any) => {
   const ref = admin.database().ref("user")
+
   ref.set({
     name: "Date " + Math.random()
   })

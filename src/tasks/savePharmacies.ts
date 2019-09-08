@@ -98,7 +98,7 @@ async function saveIstanbul() {
 
 Promise.all([saveBursa(), saveIstanbul()])
   .then(result => {
-    console.log("All pharmacies saved")
+    console.log("All pharmacies saved.")
   })
   .catch(err => {
     console.log("Pharmacies couldn't save. Error: ", err)
